@@ -1,28 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package helloworld;
 
+import static kiss.API.*;
 
-/**
- *
- * @author jeriabegglen
- */
 public class HelloWorld {
-    
-    void untestRun(){
+    void testrun(){
         outExpect("Hello!");
         run();
         outClose();
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
     
+    void run(){
+        println("Hello!");
+    }   
 }
