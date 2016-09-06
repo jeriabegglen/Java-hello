@@ -5,12 +5,13 @@ import static kiss.API.*;
 
 public class HelloWorld {
     void testrun(){
-        outExpect("Hello!");
+        outExpect("Hello World!");
         run();
         outClose();
     }
     
+    
     void run(){
-        println("Hello!");
+        println("Hello World!");
     }   
 }
