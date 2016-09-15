@@ -137,7 +137,7 @@ public class HelloWorld {
 
         //Help from this point down!!!!
         assert ((b >> 1) == b / 2);
-        assert ((-b >> 1) == -b / 2);
+        assert (((-b) >> 1) == -b/2);
 
         assert ((b << 1) == 2 * b);
         assert (((-b) << 1) == 2 * (-b));
@@ -238,16 +238,65 @@ public class HelloWorld {
         assert nouns[1] == null;
         assert nouns.length == 2;
 
-//        try (Close out = outExpect("this", EOL, "that", EOL, "other"  EOL)) {
-//         for (int i = 0; i < words.length; ++i) {
-//                   println(words[i]);
-//                }
-//            }
-        try (Close out = outExpect("this", EOL, "that", EOL, "other", EOL)){
-            for (String word : words){
+        try (Close out = outExpect("this", EOL, "that", EOL, "other", EOL)) {
+         for (int i = 0; i < words.length; ++i) {
+                    println(words[i]);
+                }
+            }
+        try (Close out = outExpect("this", EOL, "that", EOL, "other", EOL)) {
+            for (String word : words) {
                 println(word);
             }
         }
-        }
-        
     }
+    int instanceValue = 0;
+
+    void methodExample() {
+        int localValue = 0;
+        ++instanceValue;
+        ++localValue;
+        println("I", instanceValue, "L", localValue);
+    }
+
+    long factorial(int n) {
+        if (n > 1) {
+            return n * factorial(n - 1);
+        } else {
+            return 1;
+        }
+    }
+
+    void testFunctions() {
+        try (Close out = outExpect(
+                "I", 1, "L", 1, EOL,
+                "I", 2, "L", 1, EOL,
+                "I", 3, "L", 1, EOL)) {
+            methodExample();
+            methodExample();
+            methodExample();
+        }
+
+        assert factorial(1) == 1;
+        assert factorial(5) == 120;
+    }
+
+    void testString() {
+        String hi = "hello";
+        assert hi.length() == 5;
+        assert hi.substring(1, 3).equals("el"); //[a, b)
+
+        hi = hi + " world"; // wasteful because it just created garbage
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("hello");
+        sb.append(" world");
+        sb.append(" #");
+        sb.append(13);
+        String hw = sb.toString();
+
+        println(hw);
+    }
+    
+    
+
+}
