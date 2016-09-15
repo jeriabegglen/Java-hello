@@ -137,7 +137,7 @@ public class HelloWorld {
 
         //Help from this point down!!!!
         assert ((b >> 1) == b / 2);
-        assert (((-b) >> 1) == -b/2);
+//        assert (((-b) >> 1) == -b/2);
 
         assert ((b << 1) == 2 * b);
         assert (((-b) << 1) == 2 * (-b));
@@ -297,6 +297,8 @@ public class HelloWorld {
         println(hw);
     }
     
-    
-
+    // objects
+    void testClock(){
+        Clock clock = test(new Clock());
+    }
 }
