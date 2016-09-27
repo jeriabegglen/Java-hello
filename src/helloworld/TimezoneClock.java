@@ -5,19 +5,52 @@
  */
 package helloworld;
 
-import static kiss.API.abs;
-import static kiss.API.pause;
+import static kiss.API.*;
 
 /**
  *
  * @author jeriabegglen
  */
+enum Timezone {
+    MST,
+    UTC,
+    MDT
+};
+
 public class TimezoneClock extends Clock{
-    double timezoneShift = 0.0;
-    @Override // promising it is a redefinintion of what method is
-    double getHours() {
-        return 0;
+    TimezoneClock(Timezone tz) {
+        setTimezone(tz);
+    }
+    
         
+    TimezoneClock() {
+        setTimeZone(Timezone.UTC);
+    }
+    
+    void setTimezone(Timezone tz) {
+        super.setHours(time()/3600);
+        super.start();
+        switch(tz) {
+            case MST : timezoneShift = -7; break;
+            case MDT : timezoneShift = -7; break;
+            case UTC : timezoneShift = 0; break;
+            default : throw new UnsupportedOperationException("unknown timezon");
+        }
+    }
+    
+    double mod(double a, double b) {
+        double u = a/b;
+        return b*(u-Math.floor(u));
+    }
+    
+    double timezoneShift = 0.0;
+    @Override
+    double getHours() {
+        return mod(super.getHours()+timezoneShift, 12.0);
+    }
+    @Override
+    void setHours(double _hours){
+        super.setHours(mod(_hours - timezoneShift, 12.0));
     }
         
     void testGetTime() {
@@ -44,5 +77,22 @@ public class TimezoneClock extends Clock{
         assert abs(now-shouldBe) < 0.1/3600.0;
         
         
+    }
+    
+    void testMST() {
+        TimezoneClock clock = new TimezoneClock(Timezone.MST);
+        println("tzshift: " + clock.timezoneShift);
+        println("time: " + clock.getHours());
+    
+   }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof TimezoneClock) {
+            return timezoneShift == ((TimezoneClock)object).timezoneShift &&
+                    super.equals(object);
+        } else {
+            return false;
+        }
     }
 }
